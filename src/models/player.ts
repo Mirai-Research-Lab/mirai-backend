@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
 
 interface PlayerAttrs {
+  email: string,
   username: string;
-  nfts: string[]; // array of nft ipfs links
-  score: number;
-  rank: number;
+  password: string;
+  nfts?: string[]; // array of nft ipfs links
+  score?: number;
+  rank?: number;
 }
 
 interface PlayerModel extends mongoose.Model<PlayerDoc> {
@@ -12,17 +14,26 @@ interface PlayerModel extends mongoose.Model<PlayerDoc> {
 }
 
 export interface PlayerDoc extends mongoose.Document {
+  email: string,
   username: string;
-  nfts: string[];
-  score: number;
-  rank: number;
+  password: string,
+  nfts?: string[];
+  score?: number;
+  rank?: number;
 }
 
 const PlayerSchema = new mongoose.Schema(
   {
+    email:{
+      type: String,
+      required: true,
+      match: /.+\@.+\..+/,
+      unique: true
+    },
     username: {
       type: String,
       required: true,
+      unique: true
     },
     password: {
       type: String,
@@ -31,16 +42,14 @@ const PlayerSchema = new mongoose.Schema(
     nfts: [
       {
         type: String,
-        required: true,
       },
     ],
     score: {
       type: Number,
-      required: true,
     },
     rank: {
       type: Number,
-      required: true,
+      default: -1
     },
   },
   {
