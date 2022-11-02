@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
+import { PlayerDoc } from "./player";
 
 interface NftAttrs {
   address: string;
   tokenId: string;
-  OwnerAddress: string;
   imageUrl: string;
+  Owner: PlayerDoc;
 }
 
 interface NftModel extends mongoose.Model<NftDoc> {
@@ -12,10 +13,10 @@ interface NftModel extends mongoose.Model<NftDoc> {
 }
 
 interface NftDoc extends mongoose.Document {
-    address: string;
-    tokenId: string;
-    OwnerAddress: string;
-    imageUrl: string;
+  address: string;
+  tokenId: string;
+  imageUrl: string;
+  Owner: PlayerDoc;
 }
 
 const NftSchema = new mongoose.Schema(
@@ -28,14 +29,13 @@ const NftSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    OwnerAddress: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
     imageUrl: {
       type: String,
+      required: true,
+    },
+    Owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Player",
       required: true,
     },
   },

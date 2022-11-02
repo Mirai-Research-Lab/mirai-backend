@@ -11,7 +11,7 @@ interface PlayerModel extends mongoose.Model<PlayerDoc> {
   build(attrs: PlayerAttrs): PlayerDoc;
 }
 
-interface PlayerDoc extends mongoose.Document {
+export interface PlayerDoc extends mongoose.Document {
   username: string;
   nfts: string[];
   score: number;
