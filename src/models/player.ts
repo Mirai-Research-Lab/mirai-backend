@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import {bcrypt} from "bcrypt";
+import { bcrypt } from "bcrypt";
 interface PlayerAttrs {
-  email: string,
+  email: string;
   username: string;
   password: string;
   nfts?: string[]; // array of nft ipfs links
@@ -14,9 +14,9 @@ interface PlayerModel extends mongoose.Model<PlayerDoc> {
 }
 
 export interface PlayerDoc extends mongoose.Document {
-  email: string,
+  email: string;
   username: string;
-  password: string,
+  password: string;
   nfts?: string[];
   score?: number;
   rank?: number;
@@ -24,16 +24,16 @@ export interface PlayerDoc extends mongoose.Document {
 
 const PlayerSchema = new mongoose.Schema(
   {
-    email:{
+    email: {
       type: String,
       required: true,
       match: /.+\@.+\..+/,
-      unique: true
+      unique: true,
     },
     username: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     password: {
       type: String,
@@ -49,7 +49,7 @@ const PlayerSchema = new mongoose.Schema(
     },
     rank: {
       type: Number,
-      default: -1
+      default: -1,
     },
   },
   {
@@ -63,10 +63,10 @@ const PlayerSchema = new mongoose.Schema(
   }
 );
 
-PlayerSchema.pre('save', async function(done) {
-  if (this.isModified('password')) {
-    const hashed = await bcrypt.hash(this.get('password'),10);
-    this.set('password', hashed);
+PlayerSchema.pre("save", async function (done) {
+  if (this.isModified("password")) {
+    const hashed = await bcrypt.hash(this.get("password"), 10);
+    this.set("password", hashed);
   }
   done();
 });

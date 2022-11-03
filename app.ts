@@ -4,10 +4,14 @@ import cookieSession from "cookie-session";
 import { getAllPlayersRouter } from "./src/routes/getAllPlayers";
 import { getAllNftsRouter } from "./src/routes/getAllNfts";
 import { getOnePlayerRouter } from "./src/routes/getOnePlayer";
-import {signinRouter} from "./src/routes/Adminroutes/signin";
-import {signupRouter} from "./src/routes/Adminroutes/signup";
-import {signoutRouter} from "./src/routes/Adminroutes/signout";
+import { signinRouter } from "./src/routes/Adminroutes/signin";
+import { signupRouter } from "./src/routes/Adminroutes/signup";
+import { signoutRouter } from "./src/routes/Adminroutes/signout";
+
+import { scheduleNFTDistribution } from "./src/services/NFTService";
+
 const app = express();
+
 app.use(json());
 
 app.use(
@@ -27,5 +31,10 @@ app.use(signoutRouter);
 app.all("*", async (req, res) => {
   throw new Error();
 });
+
+scheduleNFTDistribution.start();
+console.log(
+  "NFT Distribution service running...Scheduled to run everyday at 12:00 AM"
+);
 
 export { app };
