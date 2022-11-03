@@ -29,7 +29,7 @@ router.post(
         throw new Error("Username is already in use");
       }
 
-    const player = Player.build({ email, password, username });
+    const player = Player.build({ email, password, username, total_score: 0, highest_score:0 });
     await player.save();
 
     // Generate JWT
