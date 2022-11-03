@@ -9,4 +9,4 @@ router.get("/api/players", async (req: Request, res: Response) => {
   res.send(players);
 });
 
-export { router as getAllPlayersRouter };
+export { router as getOnePlayerRouter };

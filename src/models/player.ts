@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import {bcrypt} from "bcrypt";
 interface PlayerAttrs {
   email: string,
   username: string;
@@ -62,6 +62,14 @@ const PlayerSchema = new mongoose.Schema(
     },
   }
 );
+
+PlayerSchema.pre('save', async function(done) {
+  if (this.isModified('password')) {
+    const hashed = await bcrypt.hash(this.get('password'),10);
+    this.set('password', hashed);
+  }
+  done();
+});
 
 PlayerSchema.statics.build = (attrs: PlayerAttrs) => {
   return new Player(attrs);

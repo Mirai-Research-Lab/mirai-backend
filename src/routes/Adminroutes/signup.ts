@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import jwt from "jsonwebtoken";
 import { Player } from "../../models/player";
-
+import { bcrypt } from "bcrypt";
 const router = express.Router();
 
 router.post(
@@ -22,6 +22,12 @@ router.post(
     if (existingPlayer) {
       throw new Error("Email in use");
     }
+
+    const existingUsername= await Player.findOne({username});
+
+    if(existingUsername){
+        throw new Error("Username is already in use");
+      }
 
     const player = Player.build({ email, password, username });
     await player.save();
