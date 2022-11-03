@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import jwt from "jsonwebtoken";
 import { Player } from "../../models/player";
+import { bcrypt } from "bcrypt";
 
 const router = express.Router();
 
@@ -15,21 +16,26 @@ router.post(
       .withMessage("You must supply a password"),
   ],
   async (req: Request, res: Response) => {
-    const { email, password, username } = req.body;
+    const { email, password} = req.body;
 
     const existingPlayer = await Player.findOne({ email });
 
-    if (existingPlayer) {
-      throw new Error("Email in use");
+    if (!existingPlayer) {
+      throw new Error("Invalid credentials");
     }
 
-    const player = Player.build({ email, password, username });
-    await player.save();
+    const passwordsMatch = await bcrypt.compare(
+        existingPlayer.password,
+        password
+      );
+      if (!passwordsMatch) {
+        throw new Error("Invalid Credentials");
+      }
 
     // Generate JWT
     const PlayerJwt = jwt.sign(
       {
-        email: player.email,
+        email: existingPlayer.email,
       },
       process.env.JWT_KEY!
     );
@@ -39,64 +45,9 @@ router.post(
       jwt: PlayerJwt,
     };
 
-    res.status(201).send(player);
+    res.status(200).send(existingPlayer);
   }
 );
 
-export { router as signupRouter };
+export { router as signinRouter };
 
-/* import express, { Request, Response } from "express";
-import { body } from "express-validator";
-import jwt from "jsonwebtoken";
-
-import { Password } from "../services/password";
-import { User } from "../models/user";
-import { validateRequest, BadRequestError } from "@metal_oopa/common";
-
-const router = express.Router();
-
-router.post(
-  "/api/users/signin",
-  [
-    body("email").isEmail().withMessage("Email must be valid"),
-    body("password")
-      .trim()
-      .notEmpty()
-      .withMessage("You must supply a password"),
-  ],
-  validateRequest,
-  async (req: Request, res: Response) => {
-    const { email, password } = req.body;
-
-    const existingUser = await User.findOne({ email });
-    if (!existingUser) {
-      throw new BadRequestError("Invalid credentials");
-    }
-
-    const passwordsMatch = await Password.compare(
-      existingUser.password,
-      password
-    );
-    if (!passwordsMatch) {
-      throw new BadRequestError("Invalid Credentials");
-    }
-
-    // Generate JWT
-    const userJwt = jwt.sign(
-      {
-        id: existingUser.id,
-        email: existingUser.email,
-      },
-      process.env.JWT_KEY!
-    );
-
-    // Store it on session object
-    req.session = {
-      jwt: userJwt,
-    };
-
-    res.status(200).send(existingUser);
-  }
-);
-
-export { router as signinRouter }; */
