@@ -1,18 +1,17 @@
 import express, { Request, Response } from "express";
-import { Player } from "../../models/player";
+import { Player } from "../models/player";
 
 const router = express.Router();
 
 router.put("/api/game/updateScore", async (req: Request, res: Response) => {
-  const { email, score } = req.body;
+  const { email, address } = req.body;
   const currentPlayer = await Player.findOne({ email: email });
   if (currentPlayer) {
     currentPlayer.set({
-      total_score: currentPlayer.total_score + score,
-      highest_score: Math.max(currentPlayer.highest_score, score),
+      address: address
     });
     await currentPlayer.save();
   } else throw new Error("User not found!");
   res.send(currentPlayer);
 });
-export { router as updateScoreRouter };
+export { router as setPlayerAddressRouter };
