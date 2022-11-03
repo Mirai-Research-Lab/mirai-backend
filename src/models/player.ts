@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
-import {bcrypt} from "bcrypt";
+import { bcrypt } from "bcrypt";
 interface PlayerAttrs {
-  email: string,
-  address?: string,
+  email: string;
+  address?: string;
   username: string;
   password: string;
   nfts?: string[]; // array of nft ipfs links
-  total_score: number
-  highest_score: number
+  total_score: number;
+  highest_score: number;
   rank?: number;
 }
 
@@ -16,32 +16,32 @@ interface PlayerModel extends mongoose.Model<PlayerDoc> {
 }
 
 export interface PlayerDoc extends mongoose.Document {
-  email: string,
-  address?: string,
+  email: string;
+  address?: string;
   username: string;
-  password: string,
+  password: string;
   nfts?: string[];
   rank?: number;
-  total_score: number
-  highest_score: number
+  total_score: number;
+  highest_score: number;
 }
 
 const PlayerSchema = new mongoose.Schema(
   {
-    email:{
+    email: {
       type: String,
       required: true,
       match: /.+\@.+\..+/,
-      unique: true
+      unique: true,
     },
     address: {
       type: String,
-      unique: true, 
+      unique: true,
     },
     username: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     password: {
       type: String,
@@ -54,15 +54,15 @@ const PlayerSchema = new mongoose.Schema(
     ],
     total_score: {
       type: Number,
-      default: 0
+      default: 0,
     },
     highest_score: {
       type: Number,
-      default: 0
+      default: 0,
     },
     rank: {
       type: Number,
-      default: -1
+      default: -1,
     },
   },
   {
@@ -76,10 +76,10 @@ const PlayerSchema = new mongoose.Schema(
   }
 );
 
-PlayerSchema.pre('save', async function(done) {
-  if (this.isModified('password')) {
-    const hashed = await bcrypt.hash(this.get('password'),10);
-    this.set('password', hashed);
+PlayerSchema.pre("save", async function (done) {
+  if (this.isModified("password")) {
+    const hashed = await bcrypt.hash(this.get("password"), 10);
+    this.set("password", hashed);
   }
   done();
 });
