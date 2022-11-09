@@ -1,4 +1,4 @@
-import { Player } from "../models/Player";
+import { Player } from "../models/player";
 
 const sendNFTsToTopScorers = async () => {
   const topScorers = await Player.find({}).sort({ highestScore: -1 }).limit(10);
