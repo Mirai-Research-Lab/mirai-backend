@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { bcrypt } from "bcrypt";
+import bcrypt from "bcrypt";
 interface PlayerAttrs {
   email: string;
   address?: string;
@@ -34,10 +34,12 @@ const PlayerSchema = new mongoose.Schema(
       match: /.+\@.+\..+/,
       unique: true,
     },
-    address: {
+    address: [{
       type: String,
-      unique: true,
-    },
+      required: false,
+      unique: false,
+      default: "0x000000000000DeAd",
+    }],
     username: {
       type: String,
       required: true,

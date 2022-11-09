@@ -3,7 +3,7 @@ import { Player } from "../models/player";
 
 const router = express.Router();
 
-router.put("/api/game/updateScore", async (req: Request, res: Response) => {
+router.put("/api/game/updateAddress", async (req: Request, res: Response) => {
   const { email, address } = req.body;
   const currentPlayer = await Player.findOne({ email: email });
   if (currentPlayer) {
