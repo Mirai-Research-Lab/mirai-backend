@@ -1,4 +1,4 @@
-import ethers from "ethers";
+import { ethers } from "ethers";
 import dotenv from "dotenv";
 
 import { Player } from "../models/player";
@@ -10,6 +10,14 @@ dotenv.config();
 
 const sendNFTsToTopScorers = async () => {
   const networkId = process.env.NETWORK_ID || "5";
+
+  const providerRPC = {
+    goerli: {
+      name: "goerli",
+      rpc: process.env.GOERLI_RPC_URL,
+      chainId: 5,
+    },
+  };
 
   if (!process.env.PRIVATE_KEY) {
     throw new Error("No private key found");
@@ -23,14 +31,12 @@ const sendNFTsToTopScorers = async () => {
     "The top scorers are: \n",
     topScorers.map((player) => player.username)
   );
-  console.log("Sending NFTs to top scorers...");
-
   // intialize ethers
-  const provider = new ethers.providers.JsonRpcProvider(
-    process.env.GOERLI_RPC_URL
-  );
+  const provider = new ethers.providers.JsonRpcProvider(providerRPC.goerli.rpc);
+
   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-  const contractAddress = networkMapping[networkId].GameContract[0];
+  const contractAddress = networkMapping[networkId]["GameContract"][0];
+
   const GameContract = new ethers.Contract(
     contractAddress,
     GameContractAbi,
@@ -41,10 +47,18 @@ const sendNFTsToTopScorers = async () => {
   const topScorersAddresses = topScorers.map(
     (player) => player.funding_address
   );
+  const allAddressesValid =
+    topScorersAddresses[0] && topScorersAddresses[1] && topScorersAddresses[2];
+
+  console.log(topScorersAddresses);
   try {
-    if (topScorersAddresses.length > 2) {
+    if (topScorersAddresses.length > 2 && allAddressesValid) {
+      console.log("Sending ETH to top scorers...");
+
       const tx = await GameContract.distributeToken(
-        topScorers.map((player) => player.address)
+        topScorersAddresses[0],
+        topScorersAddresses[1],
+        topScorersAddresses[2]
       );
       await tx.wait(1);
 
@@ -55,7 +69,9 @@ const sendNFTsToTopScorers = async () => {
     } else {
       console.log(
         "Not enough players to distribute NFTs...Players Count: ",
-        topScorersAddresses.length
+        topScorersAddresses.length,
+        "\n Or All Wallet Addresses not valid...Addresses: \n",
+        topScorersAddresses
       );
     }
   } catch (err) {
