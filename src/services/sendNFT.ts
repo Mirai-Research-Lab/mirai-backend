@@ -2,6 +2,7 @@ import ethers from "ethers";
 import dotenv from "dotenv";
 
 import { Player } from "../models/Player";
+import { resetHighestScore } from "./resetHighestScore";
 import networkMapping from "../../constants/networkMapping.json";
 import GameContractAbi from "../../constants/frontEndAbiLocation/GameContract.json";
 
@@ -46,14 +47,17 @@ const sendNFTsToTopScorers = async () => {
         topScorers.map((player) => player.address)
       );
       await tx.wait(1);
+
+      resetHighestScore();
+      console.log(
+        "Ethers sent to top scorers...Top Score reset...Restarting game..."
+      );
     } else {
       console.log(
         "Not enough players to distribute NFTs...Players Count: ",
         topScorersAddresses.length
       );
     }
-
-    console.log("Ethers sent to top scorers...Restarting game...");
   } catch (err) {
     console.log(err);
   }
