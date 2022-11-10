@@ -4,8 +4,6 @@ import cors from "cors";
 import cookieSession from "cookie-session";
 import * as dotenv from "dotenv";
 import bodyparser from "body-parser";
-import Moralis from "moralis/.";
-import { EvmChain } from "@moralisweb3/evm-utils";
 
 import { getAllPlayersRouter } from "./src/routes/getAllPlayers";
 import { getAllNftsRouter } from "./src/routes/getAllNfts";
@@ -42,18 +40,6 @@ app.use(
     extended: true,
   })
 );
-// * Moralis initialization
-// const MORALIS_API_KEY = process.env.MORALIS_API_KEY;
-// const ADDRESS = process.env.CONTRACT_ADDRESS;
-// const chain = EvmChain.ETHEREUM;
-
-// const startServer = async () => {
-//   await Moralis.start({
-//     apiKey: "xxx",
-//   });
-// };
-
-// startServer();
 
 app.use(getAllPlayersRouter);
 app.use(getAllNftsRouter);
