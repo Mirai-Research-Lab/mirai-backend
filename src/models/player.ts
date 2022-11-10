@@ -9,6 +9,7 @@ interface PlayerAttrs {
   total_score: number;
   highest_score: number;
   rank?: number;
+  funding_address?: string;
 }
 
 interface PlayerModel extends mongoose.Model<PlayerDoc> {
@@ -24,6 +25,7 @@ export interface PlayerDoc extends mongoose.Document {
   rank?: number;
   total_score: number;
   highest_score: number;
+  funding_address?: string;
 }
 
 const PlayerSchema = new mongoose.Schema(
@@ -66,6 +68,9 @@ const PlayerSchema = new mongoose.Schema(
       type: Number,
       default: -1,
     },
+    funding_address:{
+      type:String,
+    }
   },
   {
     toJSON: {

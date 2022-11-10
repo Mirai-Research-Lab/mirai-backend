@@ -20,6 +20,13 @@ router.put("/api/game/updateAddress", async (req: Request, res: Response) => {
       address: address
     });
     await currentPlayer.save();
+    if(currentPlayer.address?.length==1)
+    {
+      currentPlayer.set({
+        funding_address: currentPlayer.address[0]
+      });
+      await currentPlayer.save();
+    }
   } else throw new Error("User not found!");
   res.send(currentPlayer);
 });
