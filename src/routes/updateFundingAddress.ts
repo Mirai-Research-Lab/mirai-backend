@@ -1,9 +1,11 @@
 import express, { Request, Response } from "express";
 import { Player } from "../models/player";
+import { auth } from "../middleware/tokenauth";
 const router = express.Router();
 
 router.put(
-  "/api/game/updateFundingAddress",
+  "/api/player/updateFundingAddress",
+  auth,
   async (req: Request, res: Response) => {
     const { email, address } = req.body;
     try {
@@ -13,9 +15,10 @@ router.put(
         },
         { funding_address: address }
       );
+      if (!player) throw new Error("Player doesn't exist");
       res.status(201).send(player);
     } catch (e) {
-      res.end(e);
+      res.send(e);
     }
   }
 );

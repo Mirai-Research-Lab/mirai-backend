@@ -1,9 +1,10 @@
 import express, { Request, Response } from "express";
 import { Player } from "../models/player";
+import {auth} from "../middleware/tokenauth";
 
 const router = express.Router();
 
-router.put("/api/game/updateAddress", async (req: Request, res: Response) => {
+router.put("/api/player/updateAddress",auth, async (req: Request, res: Response) => {
   const { email, address } = req.body;
   const currentPlayer = await Player.findOne({ email: email });
   if(currentPlayer)
@@ -16,10 +17,6 @@ router.put("/api/game/updateAddress", async (req: Request, res: Response) => {
       { email: email }, 
       { $push: { address: address } },
   );
-    currentPlayer.set({
-      address: address
-    });
-    await currentPlayer.save();
     if(currentPlayer.address?.length==1)
     {
       currentPlayer.set({
