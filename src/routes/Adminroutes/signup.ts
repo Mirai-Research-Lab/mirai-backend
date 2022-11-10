@@ -2,8 +2,8 @@ import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import jwt from "jsonwebtoken";
 import { Player } from "../../models/player";
-import { bcrypt } from "bcrypt";
 const router = express.Router();
+import { validateRequest, BadRequestError } from "@devion/common";
 
 router.post(
   "/api/auth/signup",
@@ -14,38 +14,49 @@ router.post(
       .isLength({ min: 4, max: 20 })
       .withMessage("Password must be between 4 and 20 characters"),
   ],
+  validateRequest,
   async (req: Request, res: Response) => {
+    console.log(req.body);
     const { email, password, username } = req.body;
+    try {
+      const existingPlayer = await Player.findOne({ email: email });
 
-    const existingPlayer = await Player.findOne({ email });
-
-    if (existingPlayer) {
-      throw new Error("Email in use");
-    }
-
-    const existingUsername= await Player.findOne({username});
-
-    if(existingUsername){
-        throw new Error("Username is already in use");
+      if (existingPlayer) {
+        throw new BadRequestError("Email in use");
       }
 
-    const player = Player.build({ email, password, username, total_score: 0, highest_score:0 });
-    await player.save();
+      const existingUsername = await Player.findOne({ username: username });
 
-    // Generate JWT
-    const PlayerJwt = jwt.sign(
-      {
-        email: player.email,
-      },
-      process.env.JWT_KEY!
-    );
+      if (existingUsername) {
+        throw new BadRequestError("Username is already in use");
+      }
 
-    // Store it on session object
-    req.session = {
-      jwt: PlayerJwt,
-    };
+      const player = Player.build({
+        email: email,
+        password: password,
+        username: username,
+        total_score: 0,
+        highest_score: 0,
+      });
+      await player.save();
 
-    res.status(201).send(player);
+      // Generate JWT
+      const PlayerJwt = jwt.sign(
+        {
+          email: player.email,
+        },
+        process.env.JWT_KEY!
+      );
+
+      // Store it on session object
+      req.session = {
+        jwt: PlayerJwt,
+      };
+
+      res.status(201).send(player);
+    } catch (e) {
+      res.send(e);
+    }
   }
 );
 

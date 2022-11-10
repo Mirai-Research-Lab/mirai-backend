@@ -1,8 +1,9 @@
 import express from "express";
 import { json } from "body-parser";
+import cors from "cors";
 import cookieSession from "cookie-session";
 import * as dotenv from "dotenv";
-
+import bodyparser from "body-parser";
 import Moralis from "moralis/.";
 import { EvmChain } from "@moralisweb3/evm-utils";
 
@@ -27,7 +28,16 @@ app.use(
     secure: process.env.NODE_ENV !== "test",
   })
 );
-
+app.use(
+  cors({
+    // origin: ["http://localhost:3000/", "http://127.0.0.1:3000/"],
+  })
+);
+app.use(
+  bodyparser.urlencoded({
+    extended: true,
+  })
+);
 // * Moralis initialization
 // const MORALIS_API_KEY = process.env.MORALIS_API_KEY;
 // const ADDRESS = process.env.CONTRACT_ADDRESS;

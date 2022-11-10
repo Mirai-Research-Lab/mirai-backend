@@ -1,14 +1,15 @@
 import mongoose from "mongoose";
-import { bcrypt } from "bcrypt";
+import bcrypt from "bcrypt";
 interface PlayerAttrs {
   email: string;
-  address?: string;
+  address?: string[];
   username: string;
   password: string;
   nfts?: string[]; // array of nft ipfs links
   total_score: number;
   highest_score: number;
   rank?: number;
+  funding_address?: string;
 }
 
 interface PlayerModel extends mongoose.Model<PlayerDoc> {
@@ -17,13 +18,14 @@ interface PlayerModel extends mongoose.Model<PlayerDoc> {
 
 export interface PlayerDoc extends mongoose.Document {
   email: string;
-  address?: string;
+  address?: string[];
   username: string;
   password: string;
   nfts?: string[];
   rank?: number;
   total_score: number;
   highest_score: number;
+  funding_address?: string;
 }
 
 const PlayerSchema = new mongoose.Schema(
@@ -34,10 +36,12 @@ const PlayerSchema = new mongoose.Schema(
       match: /.+\@.+\..+/,
       unique: true,
     },
-    address: {
+    address: [{
       type: String,
-      unique: true,
-    },
+      required: false,
+      unique: false,
+      default: "0x000000000000dEaD",
+    }],
     username: {
       type: String,
       required: true,
@@ -64,6 +68,9 @@ const PlayerSchema = new mongoose.Schema(
       type: Number,
       default: -1,
     },
+    funding_address:{
+      type:String,
+    }
   },
   {
     toJSON: {
