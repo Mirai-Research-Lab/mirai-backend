@@ -3,7 +3,7 @@ import { body } from "express-validator";
 import jwt from "jsonwebtoken";
 import { Player } from "../../models/player";
 const router = express.Router();
-import { validateRequest, BadRequestError  } from "@devion/common";
+import { validateRequest, BadRequestError } from "@devion/common";
 
 router.post(
   "/api/auth/signup",
@@ -18,42 +18,45 @@ router.post(
   async (req: Request, res: Response) => {
     console.log(req.body);
     const { email, password, username } = req.body;
+    try {
+      const existingPlayer = await Player.findOne({ email: email });
 
-    const existingPlayer = await Player.findOne({ email: email });
+      if (existingPlayer) {
+        throw new BadRequestError("Email in use");
+      }
 
-    if (existingPlayer) {
-      throw new BadRequestError("Email in use");
+      const existingUsername = await Player.findOne({ username: username });
+
+      if (existingUsername) {
+        throw new BadRequestError("Username is already in use");
+      }
+
+      const player = Player.build({
+        email: email,
+        password: password,
+        username: username,
+        total_score: 0,
+        highest_score: 0,
+      });
+      await player.save();
+
+      // Generate JWT
+      const PlayerJwt = jwt.sign(
+        {
+          email: player.email,
+        },
+        process.env.JWT_KEY!
+      );
+
+      // Store it on session object
+      req.session = {
+        jwt: PlayerJwt,
+      };
+
+      res.status(201).send(player);
+    } catch (e) {
+      res.send(e);
     }
-
-    const existingUsername = await Player.findOne({ username: username });
-
-    if (existingUsername) {
-      throw new BadRequestError ("Username is already in use");
-    }
-
-    const player = Player.build({
-      email: email,
-      password: password,
-      username: username,
-      total_score: 0,
-      highest_score: 0,
-    });
-    await player.save();
-
-    // Generate JWT
-    const PlayerJwt = jwt.sign(
-      {
-        email: player.email,
-      },
-      process.env.JWT_KEY!
-    );
-
-    // Store it on session object
-    req.session = {
-      jwt: PlayerJwt,
-    };
-
-    res.status(201).send(player);
   }
 );
 
