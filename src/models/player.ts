@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 interface PlayerAttrs {
   email: string;
-  address?: string;
+  address?: string[];
   username: string;
   password: string;
   nfts?: string[]; // array of nft ipfs links
@@ -17,7 +17,7 @@ interface PlayerModel extends mongoose.Model<PlayerDoc> {
 
 export interface PlayerDoc extends mongoose.Document {
   email: string;
-  address?: string;
+  address?: string[];
   username: string;
   password: string;
   nfts?: string[];
@@ -38,7 +38,7 @@ const PlayerSchema = new mongoose.Schema(
       type: String,
       required: false,
       unique: false,
-      default: "0x000000000000DeAd",
+      default: "0x000000000000dEaD",
     }],
     username: {
       type: String,

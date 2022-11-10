@@ -18,8 +18,8 @@ router.post(
   async (req: Request, res: Response) => {
     console.log(req.body);
     const { email, password } = req.body;
-
-    const existingPlayer = await Player.findOne({ email: email });
+    try
+    {const existingPlayer = await Player.findOne({ email: email });
 
     if (!existingPlayer) {
       throw new BadRequestError("User does not exist. Signup first");
@@ -46,7 +46,11 @@ router.post(
       };
 
       res.status(200).send(existingPlayer);
-    });
+    });}
+    catch(e)
+    {
+      res.send(e);
+    }
   }
 );
 
