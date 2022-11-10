@@ -14,12 +14,14 @@ const sendNFTsToTopScorers = async () => {
     throw new Error("No private key found");
   }
 
-  // TODO sort with respect to 1. highest score 2. update time
-  const topScorers = await Player.find({})
-    .sort({ highestScore: -1 /*, LastUpdated: 1*/ })
+  const topScorers = await Player.find()
+    .sort({ highestScore: -1, updatedAt: 1 })
     .limit(3);
 
-  console.log(topScorers);
+  console.log(
+    "The top scorers are: \n",
+    topScorers.map((player) => player.username)
+  );
   console.log("Sending NFTs to top scorers...");
 
   // intialize ethers
@@ -34,17 +36,27 @@ const sendNFTsToTopScorers = async () => {
     wallet
   );
 
-  // call the distributeToken function and pass the address of the top scorers
+  // distribute Ethers among top scorers
+  const topScorersAddresses = topScorers.map(
+    (player) => player.funding_address
+  );
   try {
-    const tx = await GameContract.distributeToken(
-      topScorers.map((player) => player.address)
-    );
-    await tx.wait(1);
+    if (topScorersAddresses.length > 2) {
+      const tx = await GameContract.distributeToken(
+        topScorers.map((player) => player.address)
+      );
+      await tx.wait(1);
+    } else {
+      console.log(
+        "Not enough players to distribute NFTs...Players Count: ",
+        topScorersAddresses.length
+      );
+    }
+
+    console.log("Ethers sent to top scorers...Restarting game...");
   } catch (err) {
     console.log(err);
   }
-
-  console.log("Ethers sent to top scorers");
 };
 
 export { sendNFTsToTopScorers };
