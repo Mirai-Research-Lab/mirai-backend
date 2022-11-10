@@ -3,8 +3,8 @@ import dotenv from "dotenv";
 
 import { Player } from "../models/player";
 import { resetHighestScore } from "./resetHighestScore";
-import networkMapping from "../../constants/networkMapping.json";
-import GameContractAbi from "../../constants/frontEndAbiLocation/GameContract.json";
+import { default as networkMapping } from "../../constants/networkMapping.json";
+import { default as GameContractAbi } from "../../constants/frontEndAbiLocation/GameContract.json";
 
 dotenv.config();
 

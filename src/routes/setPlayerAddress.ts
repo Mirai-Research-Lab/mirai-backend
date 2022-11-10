@@ -4,7 +4,7 @@ import {auth} from "../middleware/tokenauth";
 
 const router = express.Router();
 
-router.put("/api/player/updateAddress",auth, async (req: Request, res: Response) => {
+router.put("/api/player/updateAddress"/* ,auth */, async (req: Request, res: Response) => {
   const { email, address } = req.body;
   const currentPlayer = await Player.findOne({ email: email });
   if(currentPlayer)
@@ -13,10 +13,10 @@ router.put("/api/player/updateAddress",auth, async (req: Request, res: Response)
     throw new Error("Address exists");
   })
   if (currentPlayer) {
-    currentPlayer.update(
-      { email: email }, 
-      { $push: { address: address } },
+    currentPlayer.set( 
+      { address: [...currentPlayer.address,address]  },
   );
+      await currentPlayer.save();
     if(currentPlayer.address?.length==1)
     {
       currentPlayer.set({
