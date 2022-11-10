@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.put(
   "/api/game/updateScore",
-  auth,
+  // auth,
   async (req: Request, res: Response) => {
     const { email, score } = req.body;
     const currentPlayer = await Player.findOne({ email: email });

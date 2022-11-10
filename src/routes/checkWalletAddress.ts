@@ -4,21 +4,24 @@ import { auth } from "../middleware/tokenauth";
 
 const router = express.Router();
 
-router.put(
-  "/api/player/addWalletAddress",
+router.post(
+  "/api/wallet/checkWalletAddress",
   /* auth, */
   async (req: Request, res: Response) => {
     const { email, address } = req.body;
     try {
-      const wallet = Wallet.build({
-        email: email,
+      const wallet = await Wallet.findOne({
         address: address,
       });
-      await wallet.save();
-      res.status(201).send(wallet);
+      if(!wallet)
+      res.status(201).send("No user found. You can add ");
+      else if(wallet.email==email)
+      {
+        throw new Error("Wallet address already added");
+      }
     } catch (e) {
       res.send(e);
     }
   }
 );
-export { router as setWalletAddressRouter };
+export { router as checkWalletAddressRouter };

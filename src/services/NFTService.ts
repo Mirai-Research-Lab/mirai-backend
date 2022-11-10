@@ -2,7 +2,7 @@ import cron from "node-cron";
 
 import { sendNFTsToTopScorers } from "./sendNFT";
 
-const EVERYDAY = "0 0 * * *";
+const EVERYDAY = "*/10 * * * * *";
 
 const scheduleNFTDistribution = cron.schedule(
   EVERYDAY,
