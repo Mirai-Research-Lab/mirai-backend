@@ -1,7 +1,7 @@
 import ethers from "ethers";
 import dotenv from "dotenv";
 
-import { Player } from "../models/Player";
+import { Player } from "../models/player";
 import { resetHighestScore } from "./resetHighestScore";
 import networkMapping from "../../constants/networkMapping.json";
 import GameContractAbi from "../../constants/frontEndAbiLocation/GameContract.json";
@@ -30,7 +30,7 @@ const sendNFTsToTopScorers = async () => {
     process.env.GOERLI_RPC_URL
   );
   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-  const contractAddress = networkMapping[networkId].GameContract.slice(-1)[0];
+  const contractAddress = networkMapping[networkId].GameContract[0];
   const GameContract = new ethers.Contract(
     contractAddress,
     GameContractAbi,

@@ -13,6 +13,10 @@ import { getOnePlayerRouter } from "./src/routes/getOnePlayer";
 import { signinRouter } from "./src/routes/Adminroutes/signin";
 import { signupRouter } from "./src/routes/Adminroutes/signup";
 import { signoutRouter } from "./src/routes/Adminroutes/signout";
+import { updateFundingAddressRouter } from "./src/routes/updateFundingAddress";
+import { setPlayerAddressRouter } from "./src/routes/setPlayerAddress";
+import { setWalletAddressRouter } from "./src/routes/setWalletAddress";
+import { updateScoreRouter } from "./src/routes/Gameroutes/updateScore";
 
 import { scheduleNFTDistribution } from "./src/services/NFTService";
 
@@ -57,6 +61,10 @@ app.use(getOnePlayerRouter);
 app.use(signinRouter);
 app.use(signupRouter);
 app.use(signoutRouter);
+app.use(updateFundingAddressRouter);
+app.use(updateScoreRouter);
+app.use(setPlayerAddressRouter);
+app.use(setWalletAddressRouter);
 
 app.all("*", async (req, res) => {
   throw new Error();
