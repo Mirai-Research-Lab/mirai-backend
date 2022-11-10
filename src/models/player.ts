@@ -36,12 +36,14 @@ const PlayerSchema = new mongoose.Schema(
       match: /.+\@.+\..+/,
       unique: true,
     },
-    address: [{
-      type: String,
-      required: false,
-      unique: false,
-      default: "0x000000000000dEaD",
-    }],
+    address: [
+      {
+        type: String,
+        required: false,
+        unique: false,
+        default: "0x000000000000dEaD",
+      },
+    ],
     username: {
       type: String,
       required: true,
@@ -68,9 +70,9 @@ const PlayerSchema = new mongoose.Schema(
       type: Number,
       default: -1,
     },
-    funding_address:{
-      type:String,
-    }
+    funding_address: {
+      type: String,
+    },
   },
   {
     toJSON: {
@@ -80,6 +82,7 @@ const PlayerSchema = new mongoose.Schema(
         delete ret.__v;
       },
     },
+    timestamps: true,
   }
 );
 
