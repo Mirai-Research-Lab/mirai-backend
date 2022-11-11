@@ -55,7 +55,7 @@ router.post(
 
       res.status(201).send(player);
     } catch (e) {
-      res.send(e);
+      res.status(404).send(e);
     }
   }
 );
