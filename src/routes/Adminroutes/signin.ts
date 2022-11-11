@@ -24,17 +24,8 @@ router.post(
         console.log("hello1");
         throw new Error("user not found. Sign up first");
       }
-      bcrypt.compare(password, existingPlayer.password, (result) => {
-        try {
-          if (!result) {
-            console.log("Hello2");
-            throw new Error("Invalid Credentials");
-          }
-        } catch (e) {
-          console.log(e);
-          return res.status(404).json({ message: e.message });
-        }
-
+      const result = await bcrypt.compare(password, existingPlayer.password);
+      if (result) {
         // Generate JWT
         const PlayerJwt = jwt.sign(
           {
@@ -49,7 +40,9 @@ router.post(
         };
 
         res.status(200).send(existingPlayer);
-      });
+      } else {
+        return res.status(404).json({ message: "Invalid Credentials" });
+      }
     } catch (e) {
       console.log(e);
       res.status(404).send({ message: e.message });
