@@ -29,7 +29,7 @@ router.post(
         // Generate JWT
         const PlayerJwt = jwt.sign(
           {
-            email: existingPlayer.email,
+            email: { type: String, value: existingPlayer.email },
           },
           process.env.JWT_KEY!
         );

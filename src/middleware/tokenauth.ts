@@ -12,6 +12,8 @@ async function auth(req: Request, res: Response, next: NextFunction) {
       });
     } else {
       console.log(decoded);
+      req.email=decoded["email"];
+      console.log(req.email)
     }
     next();
   } else {
