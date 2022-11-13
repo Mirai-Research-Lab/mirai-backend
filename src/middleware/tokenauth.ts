@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 async function auth(req: Request, res: Response, next: NextFunction) {
   if (req.session && req.session.token) {
     const token = req.session.token;
+
     const decoded = jwt.verify(token, process.env.JWT_KEY!);
     if (!decoded) {
       //If some error occurs
@@ -12,12 +13,12 @@ async function auth(req: Request, res: Response, next: NextFunction) {
       });
     } else {
       console.log(decoded);
-      req.email=decoded["email"];
-      console.log(req.email)
+      req.email = decoded["email"];
+      console.log(req.email);
     }
     next();
   } else {
-    next(new Error("No session token"));
+    res.send({ currentuser: null });
   }
 }
 export { auth as auth };

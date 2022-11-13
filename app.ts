@@ -2,6 +2,7 @@ import express from "express";
 import { json } from "body-parser";
 import cors from "cors";
 import cookieSession from "cookie-session";
+import session from "express-session";
 import * as dotenv from "dotenv";
 import bodyparser from "body-parser";
 
@@ -15,21 +16,44 @@ import { updateFundingAddressRouter } from "./src/routes/updateFundingAddress";
 import { setPlayerAddressRouter } from "./src/routes/setPlayerAddress";
 import { setWalletAddressRouter } from "./src/routes/setWalletAddress";
 import { updateScoreRouter } from "./src/routes/Gameroutes/updateScore";
-
+import { currentuserRouter } from "./src/routes/currentuser";
 import { scheduleNFTDistribution } from "./src/services/NFTService";
-
+import { checkwalletRouter } from "./src/routes/checkWalletAddress";
 const app = express();
 
 app.use(json());
 
 dotenv.config();
 
+// app.use(
+//   cookieSession({
+//     signed: false,
+//     secure: process.env.NODE_ENV === "production",
+//     maxAge: 24 * 60 * 60 * 1000,
+//     keys: ["key"],
+//     secret: "superSecret",
+//     httpOnly: false,
+//   })
+// );
+
+if (app.get("env") === "production") {
+  app.set("trust proxy", 1);
+}
+
 app.use(
-  cookieSession({
-    signed: false,
-    secure: process.env.NODE_ENV !== "test",
+  session({
+    secret: "keyboard cat",
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 24 * 60 * 60 * 1000,
+      httpOnly: false,
+      signed: false,
+    },
   })
 );
+
 app.use(
   cors({
     // origin: ["http://localhost:3000/", "http://127.0.0.1:3000/"],
@@ -41,6 +65,7 @@ app.use(
   })
 );
 
+app.use(updateScoreRouter);
 app.use(getAllPlayersRouter);
 app.use(getAllNftsRouter);
 app.use(getOnePlayerRouter);
@@ -48,10 +73,10 @@ app.use(signinRouter);
 app.use(signupRouter);
 app.use(signoutRouter);
 app.use(updateFundingAddressRouter);
-app.use(updateScoreRouter);
 app.use(setPlayerAddressRouter);
 app.use(setWalletAddressRouter);
-
+app.use(currentuserRouter);
+app.use(checkwalletRouter);
 app.all("*", async (req, res) => {
   throw new Error();
 });
