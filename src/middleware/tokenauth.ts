@@ -2,8 +2,9 @@ import express, { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 async function auth(req: Request, res: Response, next: NextFunction) {
-  if (req.session && req.session.token) {
-    const token = req.session.token;
+  console.log(req.cookies);
+  if (req.cookies && req.cookies.jwt) {
+    const token = req.cookies.jwt;
 
     const decoded = jwt.verify(token, process.env.JWT_KEY!);
     if (!decoded) {

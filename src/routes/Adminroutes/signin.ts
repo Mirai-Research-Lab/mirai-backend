@@ -33,9 +33,7 @@ router.post(
           },
           process.env.JWT_KEY!
         );
-
-        // Store it on session object
-        req.session.jwt = PlayerJwt;
+        res.cookie("jwt", PlayerJwt, {});
         res.status(200).send(existingPlayer);
       } else {
         return res.status(404).json({ message: "Invalid Credentials" });
