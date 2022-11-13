@@ -25,4 +25,4 @@ router.post(
     }
   }
 );
-export { router as checkWalletAddressRouter };
+export { router as checkwalletRouter };

@@ -35,10 +35,7 @@ router.post(
         );
 
         // Store it on session object
-        req.session = {
-          jwt: PlayerJwt,
-        };
-
+        req.session.jwt = PlayerJwt;
         res.status(200).send(existingPlayer);
       } else {
         return res.status(404).json({ message: "Invalid Credentials" });
