@@ -6,9 +6,10 @@ const router = express.Router();
 
 router.post(
   "/api/wallet/checkWalletAddress",
-  /* auth, */
+  auth,
   async (req: Request, res: Response) => {
-    const { email, address } = req.body;
+    const { address } = req.body;
+    const email= req.email;
     try {
       const wallet = await Wallet.findOne({
         address: address,
