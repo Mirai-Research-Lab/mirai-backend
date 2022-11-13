@@ -5,6 +5,7 @@ import cookieSession from "cookie-session";
 import session from "express-session";
 import * as dotenv from "dotenv";
 import bodyparser from "body-parser";
+import MongoDBStore from "connect-mongodb-session";
 
 import { getAllPlayersRouter } from "./src/routes/getAllPlayers";
 import { getAllNftsRouter } from "./src/routes/getAllNfts";
@@ -40,11 +41,18 @@ if (app.get("env") === "production") {
   app.set("trust proxy", 1);
 }
 
+const mongoStore = MongoDBStore(session);
+const store = new mongoStore({
+  uri: process.env.MONGO_URI!,
+  collection: "sessions",
+});
+
 app.use(
   session({
     secret: "keyboard cat",
     resave: true,
     saveUninitialized: true,
+    store: store,
     cookie: {
       secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60 * 1000,
