@@ -49,7 +49,8 @@ router.post(
       );
 
       // Store it on session object
-      req.session.jwt = PlayerJwt;
+      
+      res.cookie("jwt",PlayerJwt);
 
       res.status(201).send(player);
     } catch (e) {

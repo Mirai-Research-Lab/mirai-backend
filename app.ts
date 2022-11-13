@@ -2,11 +2,10 @@ import express from "express";
 import { json } from "body-parser";
 import cors from "cors";
 import cookieSession from "cookie-session";
-import session from "express-session";
 import * as dotenv from "dotenv";
 import bodyparser from "body-parser";
+import cookieParser from "cookie-parser";
 import MongoDBStore from "connect-mongodb-session";
-
 import { getAllPlayersRouter } from "./src/routes/getAllPlayers";
 import { getAllNftsRouter } from "./src/routes/getAllNfts";
 import { getOnePlayerRouter } from "./src/routes/getOnePlayer";
@@ -17,25 +16,16 @@ import { updateFundingAddressRouter } from "./src/routes/updateFundingAddress";
 import { setPlayerAddressRouter } from "./src/routes/setPlayerAddress";
 import { setWalletAddressRouter } from "./src/routes/setWalletAddress";
 import { updateScoreRouter } from "./src/routes/Gameroutes/updateScore";
-import { currentuserRouter } from "./src/routes/currentuser";
 import { scheduleNFTDistribution } from "./src/services/NFTService";
-import { checkwalletRouter } from "./src/routes/checkWalletAddress";
+import { currentuserRouter } from "./src/routes/currentuser";
 const app = express();
 
 app.use(json());
 
 dotenv.config();
 
-// app.use(
-//   cookieSession({
-//     signed: false,
-//     secure: process.env.NODE_ENV === "production",
-//     maxAge: 24 * 60 * 60 * 1000,
-//     keys: ["key"],
-//     secret: "superSecret",
-//     httpOnly: false,
-//   })
-// );
+
+app.use(cookieParser());
 
 if (app.get("env") === "production") {
   app.set("trust proxy", 1);
@@ -64,7 +54,8 @@ app.use(
 
 app.use(
   cors({
-    // origin: ["http://localhost:3000/", "http://127.0.0.1:3000/"],
+    origin: true,
+    credentials: true,
   })
 );
 app.use(
@@ -72,8 +63,6 @@ app.use(
     extended: true,
   })
 );
-
-app.use(updateScoreRouter);
 app.use(getAllPlayersRouter);
 app.use(getAllNftsRouter);
 app.use(getOnePlayerRouter);
@@ -81,10 +70,11 @@ app.use(signinRouter);
 app.use(signupRouter);
 app.use(signoutRouter);
 app.use(updateFundingAddressRouter);
+app.use(updateScoreRouter);
 app.use(setPlayerAddressRouter);
 app.use(setWalletAddressRouter);
 app.use(currentuserRouter);
-app.use(checkwalletRouter);
+
 app.all("*", async (req, res) => {
   throw new Error();
 });
