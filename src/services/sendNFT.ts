@@ -35,7 +35,7 @@ const sendNFTsToTopScorers = async () => {
   const provider = new ethers.providers.JsonRpcProvider(providerRPC.goerli.rpc);
 
   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-  const contractAddress = networkMapping[networkId]["GameContract"][0]; // todo: change before deployment
+  const contractAddress = networkMapping[networkId]["GameContract"][0]; // todo: change [0] -> .slice(-1)[0] before deployment
 
   const GameContract = new ethers.Contract(
     contractAddress,
@@ -50,9 +50,17 @@ const sendNFTsToTopScorers = async () => {
   const allAddressesValid =
     topScorersAddresses[0] && topScorersAddresses[1] && topScorersAddresses[2];
 
-  console.log(topScorersAddresses);
+  const highestScoreAboveZero =
+    topScorers[0].highest_score > 0 &&
+    topScorers[1].highest_score > 0 &&
+    topScorers[2].highest_score > 0;
+
   try {
-    if (topScorersAddresses.length > 2 && allAddressesValid) {
+    if (
+      topScorersAddresses.length > 2 &&
+      allAddressesValid &&
+      highestScoreAboveZero
+    ) {
       console.log("Sending ETH to top scorers...");
 
       const tx = await GameContract.distributeToken(
@@ -67,12 +75,16 @@ const sendNFTsToTopScorers = async () => {
         "Ethers sent to top scorers...Top Score reset...Restarting game..."
       );
     } else {
-      console.log(
-        "Not enough players to distribute NFTs...Players Count: ",
-        topScorersAddresses.length,
-        "\n Or All Wallet Addresses not valid...Addresses: \n",
-        topScorersAddresses
-      );
+      if (!highestScoreAboveZero || topScorersAddresses.length < 3) {
+        console.log("Not enought players...");
+      }
+
+      if (!allAddressesValid) {
+        console.log(
+          "All Wallet Addresses not valid...Addresses: \n",
+          topScorersAddresses
+        );
+      }
     }
   } catch (err) {
     console.log(err);
