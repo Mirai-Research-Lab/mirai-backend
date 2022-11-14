@@ -13,7 +13,7 @@ import { getOnePlayerRouter } from "./src/routes/getOnePlayer";
 import { signinRouter } from "./src/routes/Adminroutes/signin";
 import { signupRouter } from "./src/routes/Adminroutes/signup";
 import { signoutRouter } from "./src/routes/Adminroutes/signout";
-import { updateFundingAddressRouter } from "./src/routes/updateFundingAddress";
+import { updateFundingAddressRouter } from "./src/routes/updateUser";
 import { setPlayerAddressRouter } from "./src/routes/setPlayerAddress";
 import { setWalletAddressRouter } from "./src/routes/setWalletAddress";
 import { updateScoreRouter } from "./src/routes/Gameroutes/updateScore";
