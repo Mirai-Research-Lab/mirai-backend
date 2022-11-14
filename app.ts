@@ -48,7 +48,7 @@ app.use(setWalletAddressRouter);
 app.use(currentuserRouter);
 
 app.all("*", async (req, res) => {
-  throw new Error();
+  try{throw new Error();}catch(e){console.log(e); res.send(e)}
 });
 
 scheduleNFTDistribution.start();
