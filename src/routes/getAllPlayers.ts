@@ -7,7 +7,10 @@ const router = express.Router();
 router.get(
   "/api/players",
   /* auth,  */ async (req: Request, res: Response) => {
-    const players = await Player.find({}).sort({ highest_score: -1 });
+    const players = await Player.find({}).sort({
+      highest_score: -1,
+      updatedAt: 1,
+    });
 
     res.send(players);
   }
