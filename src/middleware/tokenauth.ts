@@ -2,8 +2,9 @@ import express, { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 async function auth(req: Request, res: Response, next: NextFunction) {
-  if (req.session && req.session.token) {
-    const token = req.session.token;
+  if (req.cookies && req.cookies.jwt) {
+
+    const token = req.cookies.jwt;
 
     const decoded = jwt.verify(token, process.env.JWT_KEY!);
     if (!decoded) {
@@ -12,12 +13,11 @@ async function auth(req: Request, res: Response, next: NextFunction) {
         error: "User not Signed in, Sign in First.",
       });
     } else {
-      console.log(decoded);
-      req.email = decoded["email"];
-      console.log(req.email);
+      req.email = decoded["email"].value;
     }
     next();
-  } else {
+  } 
+  else {
     res.send({ currentuser: null });
   }
 }

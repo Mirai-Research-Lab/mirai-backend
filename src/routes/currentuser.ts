@@ -10,6 +10,7 @@ router.get(
     const email = req.email;
     try {
       const currentuser = await Player.find({ email: email });
+      console.log(currentuser)
       res.send({ currentuser: currentuser || null });
     } catch (e) {
       res.send(e);
