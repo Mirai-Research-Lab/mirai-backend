@@ -17,6 +17,7 @@ import { setWalletAddressRouter } from "./src/routes/setWalletAddress";
 import { updateScoreRouter } from "./src/routes/Gameroutes/updateScore";
 import { scheduleNFTDistribution } from "./src/services/NFTService";
 import { currentuserRouter } from "./src/routes/currentuser";
+import {checkwalletRouter} from "./src/routes/checkWalletAddress";
 const app = express();
 
 app.use(json());
@@ -46,6 +47,7 @@ app.use(updateScoreRouter);
 app.use(setPlayerAddressRouter);
 app.use(setWalletAddressRouter);
 app.use(currentuserRouter);
+app.use(checkwalletRouter);
 
 app.all("*", async (req, res) => {
   try{throw new Error();}
