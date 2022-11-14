@@ -6,12 +6,13 @@ const router = express.Router();
 
 router.put(
   "/api/player/addWalletAddress",
-  /* auth, */
+  auth,
   async (req: Request, res: Response) => {
-    const { email, address } = req.body;
+    const { address } = req.body;
     try {
+      console.log("inside addwallet", req.email);
       const wallet = Wallet.build({
-        email: email,
+        email: req.email.toString(),
         address: address,
       });
       await wallet.save();
