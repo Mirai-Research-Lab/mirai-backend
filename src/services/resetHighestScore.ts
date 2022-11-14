@@ -1,14 +1,12 @@
 import { Player } from "../models/player";
 
 const resetHighestScore = () => {
-  Player.updateMany(
-    {},
-    {
-      $set: {
-        highestScore: 0,
-      },
-    }
-  );
+  Player.find().then((players) => {
+    players.forEach((player) => {
+      player.highest_score = 0;
+      player.save();
+    });
+  });
 };
 
 export { resetHighestScore };
