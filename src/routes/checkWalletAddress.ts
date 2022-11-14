@@ -15,13 +15,19 @@ router.post(
         address: address,
       });
       if(!wallet)
-      res.status(201).send("No user found. You can add ");
+      {
+        res.status(201).send("Add New wallet");
+      }
       else if(wallet.email==email)
       {
-        throw new Error("Wallet address already added");
+        res.status(201).send("Wallet exists");
+      }
+      else
+      {
+        throw new Error("Wallet address already added in other email");
       }
     } catch (e) {
-      res.send(e);
+      res.status(404).send(e);
     }
   }
 );
