@@ -5,7 +5,6 @@ interface PlayerAttrs {
   address?: string[];
   username: string;
   password: string;
-  nfts?: string[]; // array of nft ipfs links
   total_score: number;
   highest_score: number;
   funding_address?: string;
@@ -21,7 +20,6 @@ export interface PlayerDoc extends mongoose.Document {
   address?: string[];
   username: string;
   password: string;
-  nfts?: string[];
   total_score: number;
   highest_score: number;
   funding_address?: string;
@@ -53,11 +51,6 @@ const PlayerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    nfts: [
-      {
-        type: String,
-      },
-    ],
     total_score: {
       type: Number,
       default: 0,

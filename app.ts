@@ -6,7 +6,6 @@ import * as dotenv from "dotenv";
 import bodyparser from "body-parser";
 import cookieParser from "cookie-parser";
 import { getAllPlayersRouter } from "./src/routes/getAllPlayers";
-import { getAllNftsRouter } from "./src/routes/getAllNfts";
 import { getOnePlayerRouter } from "./src/routes/getOnePlayer";
 import { signinRouter } from "./src/routes/Adminroutes/signin";
 import { signupRouter } from "./src/routes/Adminroutes/signup";
@@ -37,7 +36,6 @@ app.use(
   })
 );
 app.use(getAllPlayersRouter);
-app.use(getAllNftsRouter);
 app.use(getOnePlayerRouter);
 app.use(signinRouter);
 app.use(signupRouter);
