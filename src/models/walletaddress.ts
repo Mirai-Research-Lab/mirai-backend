@@ -49,7 +49,7 @@ WalletaddressSchema.statics.build = (attrs: walletAttrs) => {
 };
 
 const Wallet = mongoose.model<walletaddressDoc, walletaddressModel>(
-  "WalledAddress",
+  "WalletAddress",
   WalletaddressSchema
 );
 

@@ -43,14 +43,12 @@ router.post(
       // Generate JWT
       const PlayerJwt = jwt.sign(
         {
-          email: player.email,
+          email: { type: String, value: player.email },
         },
         process.env.JWT_KEY!
       );
 
-      // Store it on session object
-      
-      res.cookie("jwt",PlayerJwt);
+      res.cookie("jwt", PlayerJwt);
 
       res.status(201).send(player);
     } catch (e) {
