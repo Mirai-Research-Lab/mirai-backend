@@ -48,7 +48,10 @@ router.post(
         process.env.JWT_KEY!
       );
 
-      res.cookie("jwt", PlayerJwt);
+      res.cookie("jwt", PlayerJwt, {
+        secure: false,
+        httpOnly: false,
+      });
 
       res.status(201).send(player);
     } catch (e) {

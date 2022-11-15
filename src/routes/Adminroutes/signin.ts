@@ -33,7 +33,10 @@ router.post(
           },
           process.env.JWT_KEY!
         );
-        res.cookie("jwt", PlayerJwt, {});
+        res.cookie("jwt", PlayerJwt, {
+          secure: false,
+          httpOnly: false,
+        });
         res.status(200).send(existingPlayer);
       } else {
         return res.status(404).json({ message: "Invalid Credentials" });
