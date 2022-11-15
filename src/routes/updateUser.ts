@@ -6,14 +6,16 @@ import cloudinary from "../config/cloudinaryConfig";
 import upload from "../config/multer.filefilter.config";
 router.post(
   "/api/player/updateuser",
-  /* auth,*/ upload.single("image"),
+  auth,
+  upload.single("image"),
   async (req: Request, res: Response) => {
-    const { email, address } = req.body;
-    console.log(req.body)
+    const { address } = req.body;
+    const email = req.email;
+    console.log(req.body);
     const result = req.file
       ? await cloudinary.uploader.upload(req.file.path)
       : null;
-    console.log(result)
+    console.log(result);
     try {
       const player = await Player.findOne({
         email: email,
@@ -22,14 +24,15 @@ router.post(
       if (!player) {
         return res.status(404).send({ message: "Player not found" });
       }
-
-      if (!address) {
-        return res.status(400).send({ message: "Wallet not Connected" });
-        player.funding_address = address;
-      }
-
       if (result) {
         player.image = result.secure_url;
+      }
+      if (!address) {
+        return res.status(400).send({ message: "Wallet not Connected" });
+      }
+      else
+      {
+        player.funding_address = address;
       }
 
       await player.save();
