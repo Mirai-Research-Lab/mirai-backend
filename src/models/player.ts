@@ -64,6 +64,8 @@ const PlayerSchema = new mongoose.Schema(
     },
     image: {
       type: String,
+      default:
+        "https://t3.ftcdn.net/jpg/03/39/45/96/360_F_339459697_XAFacNQmwnvJRqe1Fe9VOptPWMUxlZP8.jpg",
     },
   },
   {

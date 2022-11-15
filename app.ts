@@ -1,9 +1,9 @@
 import express from "express";
 import { json } from "body-parser";
 import cors from "cors";
-import cookieSession from "cookie-session";
 import * as dotenv from "dotenv";
 import bodyparser from "body-parser";
+import multer from "multer";
 import cookieParser from "cookie-parser";
 import { getAllPlayersRouter } from "./src/routes/getAllPlayers";
 import { getOnePlayerRouter } from "./src/routes/getOnePlayer";
@@ -16,7 +16,7 @@ import { setWalletAddressRouter } from "./src/routes/setWalletAddress";
 import { updateScoreRouter } from "./src/routes/Gameroutes/updateScore";
 import { scheduleNFTDistribution } from "./src/services/NFTService";
 import { currentuserRouter } from "./src/routes/currentuser";
-import {checkwalletRouter} from "./src/routes/checkWalletAddress";
+import { checkwalletRouter } from "./src/routes/checkWalletAddress";
 const app = express();
 
 app.use(json());
@@ -35,12 +35,12 @@ app.use(
     extended: true,
   })
 );
+app.use(updateFundingAddressRouter);
 app.use(getAllPlayersRouter);
 app.use(getOnePlayerRouter);
 app.use(signinRouter);
 app.use(signupRouter);
 app.use(signoutRouter);
-app.use(updateFundingAddressRouter);
 app.use(updateScoreRouter);
 app.use(setPlayerAddressRouter);
 app.use(setWalletAddressRouter);
@@ -48,9 +48,9 @@ app.use(currentuserRouter);
 app.use(checkwalletRouter);
 
 app.all("*", async (req, res) => {
-  try{throw new Error();}
-  catch(e)
-  {
+  try {
+    throw new Error();
+  } catch (e) {
     console.log(e);
   }
 });
