@@ -16,6 +16,7 @@ router.post(
   ],
   async (req: Request, res: Response) => {
     const { email, password } = req.body;
+    console.log(email);
     try {
       const existingPlayer = await Player.findOne({ email: email });
       if (!existingPlayer) {
@@ -30,7 +31,8 @@ router.post(
           },
           process.env.JWT_KEY!
         );
-        res.status(201).send(jwt);
+        console.log(password);
+        res.status(200).send(PlayerJwt);
       } else {
         return res.status(404).json({ message: "Invalid Credentials" });
       }
