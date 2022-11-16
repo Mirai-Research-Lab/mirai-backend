@@ -17,8 +17,9 @@ import { updateScoreRouter } from "./src/routes/Gameroutes/updateScore";
 import { scheduleNFTDistribution } from "./src/services/NFTService";
 import { currentuserRouter } from "./src/routes/currentuser";
 import { checkwalletRouter } from "./src/routes/checkWalletAddress";
-import {gameSetAddressRouter} from "./src/routes/Gameroutes/gameupdateaddress";
-import {gamecheckwalletRouter} from "./src/routes/Gameroutes/gamewalletcheck";
+import { gameSetAddressRouter } from "./src/routes/Gameroutes/gameupdateaddress";
+import { gamecheckwalletRouter } from "./src/routes/Gameroutes/gamewalletcheck";
+
 const app = express();
 
 app.use(json());
