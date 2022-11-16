@@ -2,10 +2,10 @@ import express, { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 async function auth(req: Request, res: Response, next: NextFunction) {
-  if (req.cookies && req.cookies.jwt) {
-
-    const token = req.cookies.jwt;
-
+  console.log(req.headers);
+  if (req.headers && req.headers.cookies) {
+    let token = req.headers.cookies;
+    token = token.toString().split("jwt=")[1];
     const decoded = jwt.verify(token, process.env.JWT_KEY!);
     if (!decoded) {
       //If some error occurs
@@ -16,8 +16,7 @@ async function auth(req: Request, res: Response, next: NextFunction) {
       req.email = decoded["email"].value;
     }
     next();
-  } 
-  else {
+  } else {
     res.send({ currentuser: null });
   }
 }
