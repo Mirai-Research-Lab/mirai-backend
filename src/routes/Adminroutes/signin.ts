@@ -37,6 +37,8 @@ router.post(
           sameSite: "none",
           expires: new Date(Date.now() + 604800000),
           path: "/",
+          maxAge: 604800000,
+          signed: false,
         });
         res.status(200).send(existingPlayer);
       } else {
