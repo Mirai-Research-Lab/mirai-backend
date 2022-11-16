@@ -10,13 +10,7 @@ interface walletaddressModel extends mongoose.Model<walletaddressDoc> {
 
 export interface walletaddressDoc extends mongoose.Document {
   email: string;
-  address?: string[];
-  username: string;
-  password: string;
-  nfts?: string[];
-  rank?: number;
-  total_score: number;
-  highest_score: number;
+  address?: string;
 }
 
 const WalletaddressSchema = new mongoose.Schema(
@@ -25,7 +19,7 @@ const WalletaddressSchema = new mongoose.Schema(
       type: String,
       required: true,
       match: /.+\@.+\..+/,
-      unique: true,
+      unique: false,
     },
     address: {
       type: String,

@@ -14,7 +14,7 @@ router.put(
       const currentPlayer = await Player.findOne({ email: email });
       if (currentPlayer)
         currentPlayer.address?.forEach((add) => {
-          if (add === address) throw new Error("Address exists");
+          if (add === address) res.status(201).send("Address exists");
         });
       if (currentPlayer) {
         currentPlayer.set({ address: [...currentPlayer.address, address] });
@@ -29,7 +29,7 @@ router.put(
       res.send(currentPlayer);
     } catch (e) {
       console.log(e);
-      res.status(400).send(e);
+      res.status(400).send({data:e});
     }
   }
 );
