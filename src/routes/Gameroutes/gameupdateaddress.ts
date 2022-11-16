@@ -1,13 +1,11 @@
 import express, { Request, Response } from "express";
 import { Player } from "../../models/player";
-import { auth } from "../../middleware/tokenauth";
-
 const router = express.Router();
 
 router.put(
-  "/api/player/updateAddress",
+  "/api/player/gameUpdateAddress",
   async (req: Request, res: Response) => {
-    const { email ,address } = req.body;
+    const { email, address } = req.body;
     try {
       const currentPlayer = await Player.findOne({ email: email });
       if (currentPlayer)

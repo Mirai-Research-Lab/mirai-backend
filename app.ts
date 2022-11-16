@@ -19,7 +19,7 @@ import { currentuserRouter } from "./src/routes/currentuser";
 import { checkwalletRouter } from "./src/routes/checkWalletAddress";
 import { gameSetAddressRouter } from "./src/routes/Gameroutes/gameupdateaddress";
 import { gamecheckwalletRouter } from "./src/routes/Gameroutes/gamewalletcheck";
-import { setGameWalletAddressRouter } from "./src/routes/Gameroutes/gamesetwalletaddress";
+
 const app = express();
 
 app.use(json());
@@ -51,7 +51,6 @@ app.use(currentuserRouter);
 app.use(checkwalletRouter);
 app.use(gameSetAddressRouter);
 app.use(gamecheckwalletRouter);
-app.use(setGameWalletAddressRouter);
 
 app.all("*", async (req, res) => {
   try {

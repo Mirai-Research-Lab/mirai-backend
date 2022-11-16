@@ -19,9 +19,7 @@ router.post(
     const { email, password } = req.body;
     try {
       const existingPlayer = await Player.findOne({ email: email });
-      console.log(existingPlayer);
       if (!existingPlayer) {
-        console.log("hello1");
         throw new Error("user not found. Sign up first");
       }
       const result = await bcrypt.compare(password, existingPlayer.password);
