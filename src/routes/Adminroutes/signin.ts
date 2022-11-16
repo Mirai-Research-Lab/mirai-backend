@@ -36,6 +36,7 @@ router.post(
           httpOnly: false,
           sameSite: "none",
           expires: new Date(Date.now() + 604800000),
+          path: "/",
         });
         res.status(200).send(existingPlayer);
       } else {
