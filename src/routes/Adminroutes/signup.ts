@@ -50,6 +50,7 @@ router.post(
       res.cookie("jwt", PlayerJwt, {
         secure: false,
         httpOnly: false,
+        sameSite: "none",
       });
 
       res.status(201).send(player);
