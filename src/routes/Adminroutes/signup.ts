@@ -49,9 +49,8 @@ router.post(
 
       res.cookie("jwt", PlayerJwt, {
         secure: true,
-        httpOnly: false,
+        httpOnly: true,
         sameSite: "none",
-        expires: new Date(Date.now() + 604800000),
         path: "/",
         maxAge: 604800000,
         signed: false,
