@@ -35,7 +35,7 @@ router.post(
           secure: true,
           httpOnly: false,
           sameSite: "none",
-          expires: new Date(Date.now() + 604800),
+          expires: new Date(Date.now() + 604800000),
         });
         res.status(200).send(existingPlayer);
       } else {
