@@ -32,7 +32,7 @@ router.post(
           process.env.JWT_KEY!
         );
         res.cookie("jwt", PlayerJwt, {
-          secure: false,
+          secure: true,
           httpOnly: false,
           sameSite: "none",
         });

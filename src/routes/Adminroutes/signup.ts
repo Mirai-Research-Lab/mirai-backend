@@ -48,7 +48,7 @@ router.post(
       );
 
       res.cookie("jwt", PlayerJwt, {
-        secure: false,
+        secure: true,
         httpOnly: false,
         sameSite: "none",
       });
