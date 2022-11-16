@@ -31,15 +31,22 @@ router.post(
           },
           process.env.JWT_KEY!
         );
+
+        res.header("Access-Control-Allow-Credentials", "true");
+        res.header("Access-Control-Allow-Origin", req.headers.origin);
+        res.header("Access-Control-Allow-Headers", "Content-Type, *");
+        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         res.cookie("jwt", PlayerJwt, {
           secure: true,
-          httpOnly: false,
+          httpOnly: true,
           sameSite: "none",
-          expires: new Date(Date.now() + 604800000),
           path: "/",
           maxAge: 604800000,
+          domain:
+            process.env.NODE_ENV === "production" ? ".vercel.app" : "localhost",
           signed: false,
         });
+
         res.status(200).send(existingPlayer);
       } else {
         return res.status(404).json({ message: "Invalid Credentials" });

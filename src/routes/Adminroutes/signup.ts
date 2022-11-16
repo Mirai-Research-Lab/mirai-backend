@@ -49,13 +49,19 @@ router.post(
 
       res.cookie("jwt", PlayerJwt, {
         secure: true,
-        httpOnly: false,
+        httpOnly: true,
         sameSite: "none",
-        expires: new Date(Date.now() + 604800000),
-        path: "/",
+        path: "https://mirai-frontend.vercel.app/",
         maxAge: 604800000,
+        domain:
+          process.env.NODE_ENV === "production" ? ".vercel.app" : "localhost",
         signed: false,
       });
+
+      res.header("Access-Control-Allow-Origin", req.headers.origin);
+      res.header("Access-Control-Allow-Credentials", "true");
+      res.header("Access-Control-Allow-Headers", "Content-Type, *");
+      res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 
       res.status(201).send(player);
     } catch (e) {
