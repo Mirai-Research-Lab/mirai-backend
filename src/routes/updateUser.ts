@@ -11,12 +11,10 @@ router.post(
   async (req: Request, res: Response) => {
     const { address } = req.body;
     const email = req.email;
-    console.log(req.body);
-    const result = req.file
-      ? await cloudinary.uploader.upload(req.file.path)
-      : null;
-    console.log(result);
     try {
+      const result = req.file
+        ? await cloudinary.uploader.upload(req.file.path)
+        : null;
       const player = await Player.findOne({
         email: email,
       });
@@ -27,14 +25,9 @@ router.post(
       if (result) {
         player.image = result.secure_url;
       }
-      if (!address) {
-        return res.status(400).send({ message: "Wallet not Connected" });
-      }
-      else
-      {
+      if (address) {
         player.funding_address = address;
       }
-
       await player.save();
 
       res.status(201).send(player);
