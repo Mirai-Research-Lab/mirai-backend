@@ -17,6 +17,8 @@ import { updateScoreRouter } from "./src/routes/Gameroutes/updateScore";
 import { scheduleNFTDistribution } from "./src/services/NFTService";
 import { currentuserRouter } from "./src/routes/currentuser";
 import { checkwalletRouter } from "./src/routes/checkWalletAddress";
+import {gameSetAddressRouter} from "./src/routes/Gameroutes/gameupdateaddress";
+import {gamecheckwalletRouter} from "./src/routes/Gameroutes/gamewalletcheck";
 const app = express();
 
 app.use(json());
@@ -46,6 +48,8 @@ app.use(setPlayerAddressRouter);
 app.use(setWalletAddressRouter);
 app.use(currentuserRouter);
 app.use(checkwalletRouter);
+app.use(gameSetAddressRouter);
+app.use(gamecheckwalletRouter);
 
 app.all("*", async (req, res) => {
   try {
@@ -57,7 +61,7 @@ app.all("*", async (req, res) => {
 
 scheduleNFTDistribution.start();
 console.log(
-  "NFT Distribution service running...Scheduled to run every 10 seconds"
+  "NFT Distribution service running...Scheduled to run everyday at 12 am"
 );
 
 export { app };
