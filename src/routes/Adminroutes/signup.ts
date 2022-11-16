@@ -48,8 +48,13 @@ router.post(
       );
 
       res.cookie("jwt", PlayerJwt, {
-        secure: false,
+        secure: true,
         httpOnly: false,
+        sameSite: "none",
+        expires: new Date(Date.now() + 604800000),
+        path: "/",
+        maxAge: 604800000,
+        signed: false,
       });
 
       res.status(201).send(player);
