@@ -39,8 +39,9 @@ router.post(
           secure: true,
           httpOnly: true,
           sameSite: "none",
-          path: "https://mirai-frontend.vercel.app/",
+          path: "/",
           maxAge: 604800000,
+          domain: "https://mirai-frontend.vercel.app/",
           signed: false,
         });
 
