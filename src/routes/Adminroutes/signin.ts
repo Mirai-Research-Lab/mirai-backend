@@ -3,7 +3,6 @@ import { body } from "express-validator";
 import jwt from "jsonwebtoken";
 import { Player } from "../../models/player";
 import bcrypt from "bcrypt";
-import { BadRequestError, NotFoundError } from "@devion/common";
 const router = express.Router();
 
 router.post(
@@ -31,23 +30,7 @@ router.post(
           },
           process.env.JWT_KEY!
         );
-
-        res.header("Access-Control-Allow-Credentials", "true");
-        res.header("Access-Control-Allow-Origin", req.headers.origin);
-        res.header("Access-Control-Allow-Headers", "Content-Type, *");
-        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-        res.cookie("jwt", PlayerJwt, {
-          secure: true,
-          httpOnly: true,
-          sameSite: "none",
-          path: "/",
-          maxAge: 604800000,
-          domain:
-            process.env.NODE_ENV === "production" ? ".vercel.app" : "localhost",
-          signed: false,
-        });
-
-        res.status(200).send(existingPlayer);
+        res.status(201).send(jwt);
       } else {
         return res.status(404).json({ message: "Invalid Credentials" });
       }
