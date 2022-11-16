@@ -31,6 +31,11 @@ router.post(
           },
           process.env.JWT_KEY!
         );
+
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Credentials", "true");
+        res.header("Access-Control-Allow-Headers", "Content-Type, *");
+        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         res.cookie("jwt", PlayerJwt, {
           secure: true,
           httpOnly: false,
@@ -40,6 +45,7 @@ router.post(
           maxAge: 604800000,
           signed: false,
         });
+
         res.status(200).send(existingPlayer);
       } else {
         return res.status(404).json({ message: "Invalid Credentials" });

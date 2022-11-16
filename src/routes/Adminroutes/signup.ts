@@ -57,6 +57,11 @@ router.post(
         signed: false,
       });
 
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Credentials", "true");
+      res.header("Access-Control-Allow-Headers", "Content-Type, *");
+      res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+
       res.status(201).send(player);
     } catch (e) {
       res.status(404).send(e);
