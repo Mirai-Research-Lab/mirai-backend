@@ -41,7 +41,8 @@ router.post(
           sameSite: "none",
           path: "/",
           maxAge: 604800000,
-          domain: "https://mirai-frontend.vercel.app/",
+          domain:
+            process.env.NODE_ENV === "production" ? ".vercel.app" : "localhost",
           signed: false,
         });
 
