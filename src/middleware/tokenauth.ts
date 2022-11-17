@@ -2,11 +2,14 @@ import express, { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 async function auth(req: Request, res: Response, next: NextFunction) {
-  console.log(req.headers);
-  if (req.headers && req.headers.cookies) {
-    let token = req.headers.cookies;
-    token = token.toString().split("jwt=")[1];
-    const decoded = jwt.verify(token, process.env.JWT_KEY!);
+  console.log(req.headers.cookies);
+  if (
+    req.headers &&
+    req.headers.cookies &&
+    req.headers.cookies !== "jwt=undefined"
+  ) {
+    const token = req.headers.cookies.toString().split("=")[1];
+    const decoded = jwt.verify(token.toString(), process.env.JWT_KEY!);
     if (!decoded) {
       //If some error occurs
       res.status(400).json({

@@ -46,7 +46,7 @@ router.post(
         },
         process.env.JWT_KEY!
       );
-      res.status(201).send(jwt);
+      res.status(200).send(PlayerJwt);
     } catch (e) {
       res.status(404).send(e);
     }
