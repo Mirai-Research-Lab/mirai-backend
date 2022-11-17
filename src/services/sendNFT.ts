@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 
 import { Player } from "../models/player";
 import { resetHighestScore } from "./resetHighestScore";
+import { incrementMintCount } from "./incrementMintCount";
+
 import { default as networkMapping } from "../../constants/networkMapping.json";
 import { default as GameContractAbi } from "../../constants/frontEndAbiLocation/GameContract.json";
 
@@ -74,6 +76,17 @@ const sendNFTsToTopScorers = async () => {
       console.log(
         "Ethers sent to top scorers...Top Score reset...Restarting game..."
       );
+
+      console.log("Incrementing mintCount for top scorers...");
+      const player1Updated = await incrementMintCount(topScorers[0].username);
+      const player2Updated = await incrementMintCount(topScorers[1].username);
+      const player3Updated = await incrementMintCount(topScorers[2].username);
+
+      if (player1Updated && player2Updated && player3Updated) {
+        console.log("mintCount incremented for top scorers.");
+      } else {
+        console.log("mintCount failed to increment for top scorers...");
+      }
     } else {
       if (!highestScoreAboveZero || topScorersAddresses.length < 3) {
         console.log("Not enought players...");

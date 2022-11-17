@@ -9,6 +9,7 @@ interface PlayerAttrs {
   highest_score: number;
   funding_address?: string;
   image?: string;
+  mintCount?: number;
 }
 
 interface PlayerModel extends mongoose.Model<PlayerDoc> {
@@ -24,6 +25,7 @@ export interface PlayerDoc extends mongoose.Document {
   highest_score: number;
   funding_address?: string;
   image?: string;
+  mintCount?: number;
 }
 
 const PlayerSchema = new mongoose.Schema(
@@ -66,6 +68,10 @@ const PlayerSchema = new mongoose.Schema(
       type: String,
       default:
         "https://t3.ftcdn.net/jpg/03/39/45/96/360_F_339459697_XAFacNQmwnvJRqe1Fe9VOptPWMUxlZP8.jpg",
+    },
+    mintCount: {
+      type: Number,
+      default: 0,
     },
   },
   {
