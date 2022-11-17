@@ -30,9 +30,9 @@ router.post(
           },
           process.env.JWT_KEY!
         );
-        res.status(201).send(jwt);
+        res.status(201).send(existingPlayer);
       } else {
-        return res.status(404).json(existingPlayer);
+        return res.status(404).json({});
       }
     } catch (e) {
       console.log(e);
