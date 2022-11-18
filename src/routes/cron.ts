@@ -13,4 +13,4 @@ router.post("/api/cron", async (req: Request, res: Response) => {
     console.log(e);
   }
 });
-export { router as checkwalletRouter };
+export { router as cronJobRouter };
