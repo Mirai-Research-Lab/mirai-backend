@@ -35,11 +35,6 @@ const sendNFTsToTopScorers = async () => {
   // get first 3 players from the sorted array
   topScorers = topScorers.slice(0, 3);
 
-  // sort top scorers by updatedAt(oldest first)
-  topScorers = topScorers.sort((a, b) => {
-    return a.updatedAt.getTime() - b.updatedAt.getTime();
-  });
-
   console.log(
     "The top scorers are: \n",
     topScorers.map((player) => player.username)
