@@ -37,7 +37,8 @@ const sendNFTsToTopScorers = async () => {
   const provider = new ethers.providers.JsonRpcProvider(providerRPC.goerli.rpc);
 
   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-  const contractAddress = networkMapping[networkId]["GameContract"][0]; // todo: change [0] -> .slice(-1)[0] before deployment
+  const contractAddress =
+    networkMapping[networkId]["GameContract"].slice(-1)[0];
 
   const GameContract = new ethers.Contract(
     contractAddress,

@@ -66,7 +66,8 @@ app.all("*", async (req, res) => {
 
 scheduleNFTDistribution.start();
 console.log(
-  "NFT Distribution service running...Scheduled to run everyday at 12 am"
+  // "NFT Distribution service running...Scheduled to run everyday at 12 am"
+  "NFT Distribution service running...Scheduled to run every 15 minutes"
 );
 
 export { app };
