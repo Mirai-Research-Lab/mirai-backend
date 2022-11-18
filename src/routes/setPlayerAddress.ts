@@ -8,9 +8,9 @@ router.put(
   "/api/player/updateAddress",
   auth,
   async (req: Request, res: Response) => {
-    const { address } = req.body;
-    const email = req.email;
     try {
+      const { address } = req.body;
+      const email = req.email;
       const currentPlayer = await Player.findOne({ email: email });
       if (currentPlayer)
         currentPlayer.address?.forEach((add) => {
@@ -29,7 +29,7 @@ router.put(
       res.send(currentPlayer);
     } catch (e) {
       console.log(e);
-      res.status(400).send({data:e});
+      res.status(400).send({ data: e });
     }
   }
 );

@@ -15,8 +15,8 @@ router.post(
       .withMessage("You must supply a password"),
   ],
   async (req: Request, res: Response) => {
-    const { email, password } = req.body;
     try {
+      const { email, password } = req.body;
       const existingPlayer = await Player.findOne({ email: email });
       if (!existingPlayer) {
         throw new Error("user not found. Sign up first");

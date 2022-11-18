@@ -5,9 +5,9 @@ const router = express.Router();
 router.post(
   "/api/player/decrementmintcount",
   async (req: Request, res: Response) => {
-    const { username } = req.body;
-
     try {
+      const { username } = req.body;
+
       const player = await Player.findOne({
         username: username,
       });

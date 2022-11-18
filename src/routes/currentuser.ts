@@ -7,8 +7,8 @@ router.get(
   "/api/auth/currentuser",
   auth,
   async (req: Request, res: Response) => {
-    const email = req.email;
     try {
+      const email = req.email;
       const currentuser = await Player.find({ email: email });
       console.log(currentuser);
       res.header("Access-Control-Allow-Origin", "*");

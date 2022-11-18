@@ -8,22 +8,17 @@ router.post(
   "/api/wallet/checkWalletAddress",
   auth,
   async (req: Request, res: Response) => {
-    const { address } = req.body;
-    const email= req.email;
     try {
+      const { address } = req.body;
+      const email = req.email;
       const wallet = await Wallet.findOne({
         address: address,
       });
-      if(!wallet)
-      {
+      if (!wallet) {
         res.status(201).send("Add New wallet");
-      }
-      else if(wallet.email==email)
-      {
+      } else if (wallet.email == email) {
         res.status(201).send("Wallet exists");
-      }
-      else
-      {
+      } else {
         throw new Error("Wallet address already added in other email");
       }
     } catch (e) {

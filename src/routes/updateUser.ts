@@ -9,9 +9,9 @@ router.post(
   auth,
   upload.single("image"),
   async (req: Request, res: Response) => {
-    const { address } = req.body;
-    const email = req.email;
     try {
+      const { address } = req.body;
+      const email = req.email;
       const result = req.file
         ? await cloudinary.uploader.upload(req.file.path)
         : null;

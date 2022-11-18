@@ -4,10 +4,10 @@ import { auth } from "../middleware/tokenauth";
 const router = express.Router();
 
 router.post("/api/player" /* ,auth */, async (req: Request, res: Response) => {
-  const email = req.email;
   try {
+    const email = req.email;
     const players = await Player.find({ email: email });
-    return res.json({player:players});
+    return res.json({ player: players });
   } catch (e) {
     res.send(e);
   }

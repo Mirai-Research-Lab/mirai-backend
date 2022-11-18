@@ -8,8 +8,8 @@ router.put(
   "/api/player/addWalletAddress",
   auth,
   async (req: Request, res: Response) => {
-    const { address } = req.body;
     try {
+      const { address } = req.body;
       console.log("inside addwallet", req.email);
       const wallet = Wallet.build({
         email: req.email.toString(),
