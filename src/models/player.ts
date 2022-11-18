@@ -26,6 +26,8 @@ export interface PlayerDoc extends mongoose.Document {
   funding_address?: string;
   image?: string;
   mintCount?: number;
+  updatedAt?: Date;
+  createdAt?: Date;
 }
 
 const PlayerSchema = new mongoose.Schema(

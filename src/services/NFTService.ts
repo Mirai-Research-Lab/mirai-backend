@@ -2,13 +2,13 @@ import cron from "node-cron";
 
 import { sendNFTsToTopScorers } from "./sendNFT";
 
-const EVERYDAY = "*/15 * * * *"; // every day at midnight
+const EVERYDAY = "*/10 * * * * *"; // every day at midnight
 // "* * * * *" for every minute, and for every 10 seconds "*/10 * * * * *"
 
 const scheduleNFTDistribution = cron.schedule(
   EVERYDAY,
   () => {
-    console.log("Scheduling NFT Distribution Service...");
+    console.log("Running cron job...");
 
     sendNFTsToTopScorers();
   },

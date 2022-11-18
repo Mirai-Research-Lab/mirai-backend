@@ -25,9 +25,20 @@ const sendNFTsToTopScorers = async () => {
     throw new Error("No private key found");
   }
 
-  const topScorers = await Player.find()
-    .sort({ highestScore: -1, updatedAt: 1 })
-    .limit(3);
+  const allPlayers = await Player.find();
+
+  // sort players by highest score
+  let topScorers = allPlayers.sort((a, b) => {
+    return b.highest_score - a.highest_score;
+  });
+
+  // get first 3 players from the sorted array
+  topScorers = topScorers.slice(0, 3);
+
+  // sort top scorers by updatedAt(oldest first)
+  topScorers = topScorers.sort((a, b) => {
+    return a.updatedAt.getTime() - b.updatedAt.getTime();
+  });
 
   console.log(
     "The top scorers are: \n",
@@ -71,14 +82,18 @@ const sendNFTsToTopScorers = async () => {
         topScorersAddresses[1],
         topScorersAddresses[2]
       );
-      await tx.wait(1);
 
       resetHighestScore();
       console.log(
         "Ethers sent to top scorers...Top Score reset...Restarting game..."
       );
 
-      console.log("Incrementing mintCount for top scorers...");
+      console.log(
+        "Incrementing mintCount for top scorers...",
+        topScorers[0].username,
+        topScorers[1].username,
+        topScorers[2].username
+      );
       const player1Updated = await incrementMintCount(topScorers[0].username);
       const player2Updated = await incrementMintCount(topScorers[1].username);
       const player3Updated = await incrementMintCount(topScorers[2].username);
