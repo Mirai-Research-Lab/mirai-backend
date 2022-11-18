@@ -77,11 +77,11 @@ const sendNFTsToTopScorers = async () => {
     ) {
       console.log("Sending ETH to top scorers...");
 
-      const tx = await GameContract.distributeToken(
+      const tx = await GameContract.distributeToken([
         topScorersAddresses[0],
         topScorersAddresses[1],
-        topScorersAddresses[2]
-      );
+        topScorersAddresses[2],
+      ]);
 
       resetHighestScore();
       console.log(
