@@ -21,6 +21,7 @@ import { gameSetAddressRouter } from "./src/routes/Gameroutes/gameupdateaddress"
 import { gamecheckwalletRouter } from "./src/routes/Gameroutes/gamewalletcheck";
 import { gamesigninRouter } from "./src/routes/Adminroutes/game-signin";
 import { decrementMintCountRouter } from "./src/routes/decrementMintCount";
+import { cronJobRouter } from "./src/routes/cron";
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.use(gameSetAddressRouter);
 app.use(gamecheckwalletRouter);
 app.use(gamesigninRouter);
 app.use(decrementMintCountRouter);
+app.use(cronJobRouter);
 
 app.all("*", async (req, res) => {
   try {
