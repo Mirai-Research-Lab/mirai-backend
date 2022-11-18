@@ -58,9 +58,10 @@ app.use(decrementMintCountRouter);
 
 app.all("*", async (req, res) => {
   try {
-    throw new Error();
+    res.status(404).send({ message: "Route not found" });
   } catch (e) {
     console.log(e);
+    console.log({ error: e.message });
   }
 });
 
