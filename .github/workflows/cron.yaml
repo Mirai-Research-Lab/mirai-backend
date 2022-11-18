@@ -10,3 +10,4 @@ jobs:
         run: |
           curl --request POST \
           --url 'https://mirai-backend-kappa.vercel.app/api/cron' \
+          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
