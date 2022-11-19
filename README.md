@@ -1,8 +1,11 @@
-## This repo contains the codebase for the Express JS backend server for both the Unity Mirai Shooter Game and our Next JS website.
+### This repo contains the codebase for the Express JS backend server for both the Unity Mirai Shooter Game and our Next JS website.
 
 ---
+## Features Implemented
+- We have defined custom build function for MongoDB schemas which helps in easily creating models. 
+- We have set up github action cron jobs to automate the backend functionalities. (As every data on 00:00 GMT the leaderboards get reset and the winners are rewarded their winnings)
 
-### To run the server in local environment, follow these steps:
+## To run the server in local environment, follow these steps:
 
 1. Run command: `git clone https://github.com/Mirai-Research-Lab/mirai-backend.git`
 2. Run command: `cd mirai-backend`
